@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main>
+
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">Crank another post</h1>
+          <p class="lead text-muted">With every word you type and every thought you share, you open the floodgates of prosperity and abundance. So why not take a moment to write once more, and watch as your cash flow steadily grows with each new post you create.</p>
+          <p>
+            <a href="/articles/create/" class="btn btn-primary my-2">Write Post 😎</a>            
+            <a class="btn btn-secondary my-2" data-bs-toggle="modal" href="#exampleModalToggle" role="button">No thanks 🤓</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          {% for object in object_list %}
+              {% include 'articles/list-inline.html' with article=object%}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <body>
+        
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header" style="border: 0px solid rgba(0, 0, 0, 0.2);">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Bruhhhhhh</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  
+  </main>
+
+
+
+
+{% endblock %}

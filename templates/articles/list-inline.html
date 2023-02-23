@@ -1,0 +1,18 @@
+<div class="col">
+    <div class="card mb-4 shadow-sm">
+        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image cap">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#868e96"></rect>
+        </svg>
+        
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href='{{ object.get_absolute_url }}'><h5 class="card-title stretched-link">{{object.title}}</h5></a>
+                <small class="text-muted">9 minute read</small>
+            </div>
+            <p class="card-text">{{object.url}}</p>
+            <p class="card-text"><small class="text-muted">{{object.content| truncatechars:150}}...</small></p>
+        </div>
+        
+    </div>
+</div>

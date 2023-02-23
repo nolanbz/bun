@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="modal modal-xl modal-article-detail position-static d-block py-5" tabindex="-1" role="dialog" id="articleDetail">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
+              <h1 class="fw-bold mb-0 fs-2">{{ object.title }}</h1>          
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <p>Author {{ object.user.username }}
+                <h2>Meta title:</h2>
+                <p>{{ object.meta_title|safe }}</p>
+                <h2>Meta description:</h2>
+                <p>{{ object.meta_description|safe }}</p>
+                <h2>What are/is:</h2>
+                <p>{{ object.what_is|safe }}</p>
+                <h2>Key things to consider:</h2>
+                <p>{{ object.key_things_to_consider|safe }}</p>
+                <h2>Frequently asked questions:</h2>
+                <p>{{ object.faq|safe }}</p>
+                <h2>Features:</h2>
+                <p>{{ object.features|safe }}</p>
+                <h2>Prices of simular products:</h2>
+                <p>{{ object.prices_of_simular_products|safe }}</p>
+                <h2>Simular Products:</h2>
+                <p>{{ object.simular_products|safe }}</p>
+                <h2>Keywords:</h2>
+                <p>{{ object.keywords|safe }}</p>                
+                <h2>Overview:</h2>
+                <p>{{ object.content|safe }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+{% endblock content %}
