@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 requests = "*"
 gunicorn = "*"
+psycopg2-binary = "*"
+django-on-heroku = "*"
 
 [dev-packages]
 
