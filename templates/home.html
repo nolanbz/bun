@@ -16,29 +16,31 @@
         </div>
       </div>
     </section>
-  
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {% for object in object_list %}
-              {% include 'articles/list-inline.html' with article=object%}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    <body>
-        
+
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header" style="border: 0px solid rgba(0, 0, 0, 0.2);">
-              <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Bruhhhhhh</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div> 
-          </div>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" style="border: 0px solid rgba(0, 0, 0, 0.2);">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Bruhhhhhh</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div> 
         </div>
       </div>
     </div>
+  
+
+    {% if user.is_superuser %}  
+        <div class="album py-5 bg-light">
+          <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              {% for object in object_list %}
+                  {% include 'articles/list-inline.html' with article=object%}
+              {% endfor %}
+            </div>
+          </div>
+        </div>          
+    {% endif %}
+  
     
   
   </main>

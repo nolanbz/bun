@@ -14,11 +14,7 @@
         </div>
   
         <div class="modal-body p-5 pt-0">
-         
-                <!-- <div class="form-floating mb-3 alert alert-danger" role="alert">
-                  
-                </div> -->
-          
+      
           <form method="POST" action="/login/">
             {% csrf_token %}
             <div class="form-floating mb-3">
@@ -34,10 +30,7 @@
                 <input name="remember" type="checkbox" value="remember-me"> Remember me
               </label>
             </div>
-            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
-            <hr class="my-4">
-            <h2 class="fs-5 fw-bold mb-3">Need an account?</h2>                            
-            <a href="/register" class="w-100 mb-2 btn btn-lg rounded-3 btn-outline-primary" role="button">Sign up</a>       
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>                 
           </form>
         </div>
       </div>

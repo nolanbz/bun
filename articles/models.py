@@ -29,7 +29,7 @@ class Article(models.Model):
     # Django model-field-types
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
-    title = models.CharField(max_length=120)
+    title = models.TextField()
     meta_title = models.TextField()
     meta_description = models.TextField()
     what_is = models.TextField()
@@ -41,7 +41,7 @@ class Article(models.Model):
     keywords = models.TextField()
     content = models.TextField()
 
-    slug = models.SlugField(unique=True, blank=True, null=True)    
+    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)    
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     publish = models.DateField(auto_now_add=False, auto_now=False, null=True, blank=True)

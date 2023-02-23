@@ -6,6 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     queryset = Article.objects.all().order_by('title')
     serializer_class = ArticleSerializer

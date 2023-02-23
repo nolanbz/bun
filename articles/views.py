@@ -1,29 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 
 
 
 from .forms import ArticleForm
 from .models import Article
-# Create your views here.
 
-def article_search_view(request):
-    query = request.GET.get('q')
-    qs = Article.objects.search(query=query)
-    context = {
-        "object_list": qs
-    }
-    return render(request, "articles/search.html", context=context)
-
-
+@login_required(login_url='/login/')
 def index(request):
     qs = Article.objects.published()
     template_name = "index.html"
     context = {"object_list": qs}
     return render(request, template_name, context)
 
-@login_required
+@login_required(login_url='/login/')
 def article_create_view(request):
     form = ArticleForm(request.POST or None)
     context = {
@@ -36,24 +27,6 @@ def article_create_view(request):
     else:
         print('form invalid')
     return render(request, "articles/create.html", context=context)
-
-
-@login_required
-def article_update_view(request, id=None):
-
-    article_obj = Article.objects.get(id=id)
-    
-    form = ArticleForm(request.POST or None, instance=article_obj)
-    context = {
-        "form": form,
-        "object": article_obj,        
-    }
-    if form.is_valid():
-        form.save()
-        context['message'] = 'Data saved.'
-
-    return render(request, "articles/create.html", context=context)
-
 
 def article_detail_view(request, slug=None):
     article_obj = None

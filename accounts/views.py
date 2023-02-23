@@ -4,25 +4,6 @@ from .form import SignUpForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-def register_view(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST or None)
-        if form.is_valid():
-            user = form.save()                   
-            username = form.cleaned_data.get('username')            
-            raw_password = form.cleaned_data.get('password') 
-            user.set_password(raw_password)
-            user.save()             
-            user = authenticate(username=username, password=raw_password)            
-            login(request, user)
-            return redirect('/')
-        else:
-            print('form invalid')
-    else:
-        form = SignUpForm()
-    return render(request, 'accounts/register.html', {'form': form})
-
-
 
 # Create your views here.
 def login_view(request):
@@ -40,8 +21,9 @@ def login_view(request):
     }
     return render(request, "accounts/login.html", context)
 
+@login_required
 def profile_view(request):
-    pass
+    return render(request, "accounts/profile.html")
 
 @login_required
 def logout_view(request):    

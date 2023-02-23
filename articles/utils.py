@@ -17,3 +17,15 @@ def slugify_instance_title(instance, save=False, new_slug=None):
     if save:
         instance.save()
     return instance
+
+
+
+
+def build_blog_from_data(data):
+    pass
+
+def post_to_abunda_blog(data):
+    pass
+
+def put_to_abunda_blog(data):
+    pass
