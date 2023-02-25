@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from articles.models import Article
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -14,7 +16,10 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
             "key_things_to_consider",
             "faq",
             "features",
-            "prices_of_simular_products",
-            "simular_products",
-            "keywords",
+            "prices_of_similar_products",                        
+            "id",
+            "published",
+            "tags",
+            "abunda_slug",
         ]
+

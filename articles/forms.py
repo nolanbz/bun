@@ -14,7 +14,5 @@ class ArticleForm(forms.ModelForm):
             'key_things_to_consider',
             'faq',
             'features',
-            'prices_of_simular_products',
-            'simular_products',
-            'keywords',
+            'prices_of_similar_products',                        
         ]

@@ -25,8 +25,7 @@ class ArticleManager(models.Manager):
         return self.get_queryset().search(query=query)
 
 class Article(models.Model):
-    # https://docs.djangoproject.com/en/3.2/ref/models/fields/#model-field-types
-    # Django model-field-types
+
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
     title = models.TextField()
@@ -36,18 +35,18 @@ class Article(models.Model):
     key_things_to_consider = models.TextField()
     faq = models.TextField()
     features = models.TextField()
-    prices_of_simular_products = models.TextField()
-    simular_products = models.TextField()
-    keywords = models.TextField()
+    prices_of_similar_products = models.TextField()    
     content = models.TextField()
+    image_url = models.URLField(default='https://robohash.org/test.png')
+    abunda_slug = models.TextField(blank=True)
 
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)    
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     publish = models.DateField(auto_now_add=False, auto_now=False, null=True, blank=True)
+    published = models.BooleanField(default=False)
+    tags = models.TextField(blank=True)
   
-    
-
     objects=ArticleManager()
 
     @property
@@ -59,8 +58,17 @@ class Article(models.Model):
         return reverse("articles:detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):    
-        super().save(*args, **kwargs)        
+        super().save(*args, **kwargs)   
 
+
+def update_abunda_slug(data):
+    article_id = data['backend_id']
+    abunda_slug = data['slug']
+    object = Article.objects.filter(id=article_id).first()
+    if object:               
+        object.abunda_slug = abunda_slug
+        object.save()
+        return object     
 
 def article_pre_save(sender, instance, *args, **kwargs):    
     if instance.slug is None:
