@@ -30,6 +30,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'abunda_slug': obj.abunda_slug,
             'published': obj.published,
             'tags': obj.tags,
+            'image_url': obj.image_url,
         }
 
         data = build_blog_from_data(data)
