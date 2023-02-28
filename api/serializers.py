@@ -21,5 +21,6 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
             "published",
             "tags",
             "abunda_slug",
+            "image_url",
         ]
 

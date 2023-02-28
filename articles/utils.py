@@ -31,7 +31,7 @@ def build_blog_from_data(object):
     faq = object["faq"]
     meta_title = object["meta_title"]
     meta_description = object["meta_description"]
-    image_url = f"https://robohash.org/{urllib.parse.quote_plus(title)}.png"
+    image_url = object["image_url"]
     aritcle_id = object["id"]
     abunda_slug = object["abunda_slug"]
     published = object["published"]
