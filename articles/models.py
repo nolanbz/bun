@@ -39,7 +39,7 @@ class Article(models.Model):
     content = models.TextField()
     image_url = models.URLField(default='https://robohash.org/test.png')
     abunda_slug = models.TextField(blank=True)
-
+    abunda_url = models.URLField(default='https://www.shopabunda.com/blog/')
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)    
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -67,6 +67,7 @@ def update_abunda_slug(data):
     object = Article.objects.filter(id=article_id).first()
     if object:               
         object.abunda_slug = abunda_slug
+        object.abunda_url = f'https://www.shopabunda.com/blog/{abunda_slug}'
         object.save()
         return object     
 
