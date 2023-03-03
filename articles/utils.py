@@ -43,10 +43,10 @@ def build_blog_from_data(object):
         {key_things_to_consider}
         <h2>Key features</h2>
         {features}       
-        <h2>Prices of similar products</h2>
-        {prices_of_similar_products}
         <h2>Frequently asked questions</h2>
         {faq}
+        <h2>Similar products</h2>
+        {prices_of_similar_products}
     """
 
     abunda_data = {

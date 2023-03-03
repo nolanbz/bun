@@ -8,6 +8,7 @@ from api.utils import post_to_abunda_blog, put_to_abunda_blog
 from articles.models import update_abunda_slug
 from django.http import JsonResponse
 
+
 class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Article.objects.all().order_by('title')
@@ -34,6 +35,3 @@ class ArticleViewSet(viewsets.ModelViewSet):
                 print("updated slug") 
 
         return response
-
-
-
