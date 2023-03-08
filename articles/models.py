@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
 from django.utils import timezone
-# Create your models here.
+
 
 from .utils import slugify_instance_title
 
@@ -28,16 +28,14 @@ class Article(models.Model):
 
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
-    title = models.TextField()
-    meta_title = models.TextField()
-    meta_description = models.TextField()
-    what_is = models.TextField()
-    key_things_to_consider = models.TextField()
-    faq = models.TextField()
-    features = models.TextField()
-    prices_of_similar_products = models.TextField()    
-    content = models.TextField()
+    title = models.TextField(blank=True)
+    meta_title = models.TextField(blank=True)
+    meta_description = models.TextField(blank=True)
+    tags = models.TextField(blank=True)
     image_url = models.URLField(default='https://robohash.org/test.png')
+    summary = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+
     abunda_slug = models.TextField(blank=True)
     abunda_url = models.URLField(default='https://www.shopabunda.com/blog/')
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)    
@@ -45,7 +43,13 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     publish = models.DateField(auto_now_add=False, auto_now=False, null=True, blank=True)
     published = models.BooleanField(default=False)
-    tags = models.TextField(blank=True)
+
+    # Old stuff need to remove
+    what_is = models.TextField(blank=True)
+    key_things_to_consider = models.TextField(blank=True)
+    faq = models.TextField(blank=True)
+    features = models.TextField(blank=True)
+    prices_of_similar_products = models.TextField(blank=True)    
   
     objects=ArticleManager()
 
@@ -53,23 +57,12 @@ class Article(models.Model):
     def name(self):
         return self.title
 
-    def get_absolute_url(self):
-        # return f'/articles/{self.slug}/'
+    def get_absolute_url(self):        
         return reverse("articles:detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)   
-
-
-def update_abunda_slug(data):
-    article_id = data['backend_id']
-    abunda_slug = data['slug']
-    object = Article.objects.filter(id=article_id).first()
-    if object:               
-        object.abunda_slug = abunda_slug
-        object.abunda_url = f'https://www.shopabunda.com/blog/{abunda_slug}'
-        object.save()
-        return object     
+        
 
 def article_pre_save(sender, instance, *args, **kwargs):    
     if instance.slug is None:

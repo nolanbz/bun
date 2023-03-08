@@ -21,47 +21,33 @@ def slugify_instance_title(instance, save=False, new_slug=None):
     return instance
 
 def build_blog_from_data(object):
- 
+
+    aritcle_id = object["id"]
     title = object["title"]
-    what_is = object["what_is"]
-    content = object["content"]
-    key_things_to_consider = object["key_things_to_consider"]
-    features = object["features"]    
-    prices_of_similar_products = object["prices_of_similar_products"]
-    faq = object["faq"]
     meta_title = object["meta_title"]
     meta_description = object["meta_description"]
+    tags = object["tags"]
     image_url = object["image_url"]
-    aritcle_id = object["id"]
+    summary = object["summary"]
+    content = object["content"]
+
     abunda_slug = object["abunda_slug"]
     published = object["published"]
-    tags = object["tags"]
 
-    body_html = f"""
-        {content}
-        <h2>Key things to consider</h2>
-        {key_things_to_consider}
-        <h2>Key features</h2>
-        {features}       
-        <h2>Frequently asked questions</h2>
-        {faq}
-        <h2>Similar products</h2>
-        {prices_of_similar_products}
-    """
 
     abunda_data = {
         "article": 
         { 
-            "title": title,
-            "summary": what_is,
-            "body_html": body_html,
             "backend_id": aritcle_id,
-            "image_url": image_url,
+            "title": title,
             "meta_title": meta_title,
-            "meta_description": meta_description, 
+            "meta_description": meta_description,
+            "tags": tags,
+            "image_url": image_url,
+            "summary": summary,
+            "body_html": content,
             "published": published, 
             "abunda_slug": abunda_slug, 
-            "tags": tags, 
         }
     } 
 

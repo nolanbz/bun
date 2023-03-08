@@ -8,19 +8,13 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Article
         fields = [
-            "title",
-            "content",
+            "id",
+            "title",            
             "meta_title",
             "meta_description",
-            "what_is",
-            "key_things_to_consider",
-            "faq",
-            "features",
-            "prices_of_similar_products",                        
-            "id",
-            "published",
             "tags",
-            "abunda_slug",
             "image_url",
+            "summary",
+            "content",            
         ]
 

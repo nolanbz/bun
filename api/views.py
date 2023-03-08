@@ -1,12 +1,10 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import ArticleSerializer
 from articles.models import Article
 from rest_framework.permissions import IsAuthenticated
 from articles.utils import build_blog_from_data
 from api.utils import post_to_abunda_blog, put_to_abunda_blog
-from articles.models import update_abunda_slug
-from django.http import JsonResponse
+
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -30,8 +28,5 @@ class ArticleViewSet(viewsets.ModelViewSet):
             abunda_response = post_to_abunda_blog(data)            
             print("post to abunda") 
 
-            if abunda_response:
-                update_abunda_slug(abunda_response)
-                print("updated slug") 
 
         return response

@@ -4,7 +4,6 @@ from django.contrib import admin
 from .models import Article
 from articles.utils import build_blog_from_data
 from api.utils import post_to_abunda_blog, put_to_abunda_blog
-from articles.models import update_abunda_slug
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'slug', 'timestamp', 'updated']
@@ -17,27 +16,24 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
         data = {
+            'id': obj.id,
             'title': obj.title,
-            'what_is': obj.what_is,
-            'content': obj.content,
-            'key_things_to_consider': obj.key_things_to_consider,
-            'features': obj.features,
-            'prices_of_similar_products': obj.prices_of_similar_products,
-            'faq': obj.faq,
             'meta_title': obj.meta_title,
             'meta_description': obj.meta_description,
-            'id': obj.id,
+            'tags': obj.tags,
+            'image_url': obj.image_url,
+            'summary': obj.summary,
+            'content': obj.content,
+            
             'abunda_url': obj.abunda_url,            
             'abunda_slug': obj.abunda_slug,            
             'published': obj.published,
-            'tags': obj.tags,
-            'image_url': obj.image_url,
+            
         }
 
         data = build_blog_from_data(data)
         print("built data")
         
-
         if obj.abunda_slug:
            response = put_to_abunda_blog(data)
            print(response)
@@ -45,8 +41,5 @@ class ArticleAdmin(admin.ModelAdmin):
             response = post_to_abunda_blog(data)
             print(response)
             print("posted to abunda") 
-
-            if response:
-                update_abunda_slug(response)
 
 admin.site.register(Article, ArticleAdmin)
