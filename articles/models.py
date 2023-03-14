@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .utils import slugify_instance_title, build_blog_from_data
 
-from api.utils import post_to_abunda_blog, put_to_abunda_blog
+from api.utils import post_to_abunda_blog, put_to_abunda_blog, send_to_abunda_blog
 
 User = settings.AUTH_USER_MODEL
 
@@ -85,11 +85,14 @@ def article_pre_save(sender, instance, *args, **kwargs):
     data = build_blog_from_data(instance)
 
     if instance.abunda_slug:
-        response = put_to_abunda_blog(data)  
-        update_abunda_slug(response)
+        print('put')
+        response = send_to_abunda_blog(data, 'PUT')
+        update_abunda_slug(response)        
     else:
-        response = post_to_abunda_blog(data)
+        print('post')
+        response = send_to_abunda_blog(data, 'POST')
         update_abunda_slug(response)
+        
 
 pre_save.connect(article_pre_save, sender=Article)
 
