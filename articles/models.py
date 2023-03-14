@@ -63,9 +63,18 @@ class Article(models.Model):
         return reverse("articles:detail", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):    
-        super().save(*args, **kwargs)   
-        
+        super().save(*args, **kwargs)
 
+def update_abunda_slug(response):
+    article_id = response['backend_id']
+    abunda_slug = response['slug']
+    object = Article.objects.filter(id=article_id).first()
+    if object:               
+        object.abunda_slug = abunda_slug
+        object.abunda_url = f'https://www.shopabunda.com/blog/{abunda_slug}'
+        object.save()
+        
+        
 def article_pre_save(sender, instance, *args, **kwargs):
     
     if instance.slug is None:
@@ -75,9 +84,11 @@ def article_pre_save(sender, instance, *args, **kwargs):
     data = build_blog_from_data(instance)
 
     if instance.abunda_slug:
-        put_to_abunda_blog(data)    
+        response = put_to_abunda_blog(data)  
+        update_abunda_slug(response)
     else:
-        post_to_abunda_blog(data)
+        response = post_to_abunda_blog(data)
+        update_abunda_slug(response)
 
 pre_save.connect(article_pre_save, sender=Article)
 
