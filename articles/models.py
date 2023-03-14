@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .utils import slugify_instance_title, build_blog_from_data
 
-from api.utils import post_to_abunda_blog, put_to_abunda_blog, send_to_abunda_blog
+from api.utils import send_to_abunda_blog
 
 User = settings.AUTH_USER_MODEL
 
