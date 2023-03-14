@@ -37,14 +37,7 @@ def send_to_abunda_blog(data, method):
         raise AbundaError(error_msg)
 
 class AbundaError(Exception):
-    """Exception raised when an error occurs while interacting with the Abunda API."""
-    def __init__(self, status_code, message, details=None):
-        self.status_code = status_code
-        self.message = message
-        self.details = details
-
-    def __str__(self):
-        return f"Abunda API error: {self.status_code} {self.message}"
+    pass
 
 # def post_to_abunda_blog(data):
 #     url = "https://www.shopabunda.com/blog/"
