@@ -71,13 +71,13 @@ def article_pre_save(sender, instance, *args, **kwargs):
     if instance.slug is None:
         slugify_instance_title(instance, save=False)
   
-  
+
     data = build_blog_from_data(instance)
 
     if instance.abunda_slug:
-        post_to_abunda_blog(data)
+        put_to_abunda_blog(data)    
     else:
-        put_to_abunda_blog(data)
+        post_to_abunda_blog(data)
 
 pre_save.connect(article_pre_save, sender=Article)
 
