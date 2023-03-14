@@ -5,8 +5,9 @@ from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
 from django.utils import timezone
 
+from .utils import slugify_instance_title, build_blog_from_data
 
-from .utils import slugify_instance_title
+from api.utils import post_to_abunda_blog, put_to_abunda_blog
 
 User = settings.AUTH_USER_MODEL
 
@@ -34,6 +35,7 @@ class Article(models.Model):
     tags = models.TextField(blank=True)
     image_url = models.URLField(default='https://robohash.org/test.png')
     summary = models.TextField(blank=True)
+    abunda_scorecard = models.TextField(blank=True)
     content = models.TextField(blank=True)
 
     abunda_slug = models.TextField(blank=True)
@@ -64,15 +66,19 @@ class Article(models.Model):
         super().save(*args, **kwargs)   
         
 
-def article_pre_save(sender, instance, *args, **kwargs):    
+def article_pre_save(sender, instance, *args, **kwargs):
+    data = build_blog_from_data(instance)
     if instance.slug is None:
         slugify_instance_title(instance, save=False)
+        post_to_abunda_blog(data)
+    else:
+        put_to_abunda_blog(data)
 
 pre_save.connect(article_pre_save, sender=Article)
 
 
-def article_post_save(sender, instance, created, *args, **kwargs):    
+def article_post_save(sender, instance, created, *args, **kwargs):   
     if created:
-        slugify_instance_title(instance, save=True)
+        slugify_instance_title(instance, save=True)        
 
 post_save.connect(article_post_save, sender=Article)

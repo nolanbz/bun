@@ -1,7 +1,5 @@
 import random
 from django.utils.text import slugify
-import urllib
-import requests
 
 def slugify_instance_title(instance, save=False, new_slug=None):
     if new_slug is not None:
@@ -20,19 +18,20 @@ def slugify_instance_title(instance, save=False, new_slug=None):
         instance.save()
     return instance
 
-def build_blog_from_data(object):
+def build_blog_from_data(instance):
 
-    aritcle_id = object["id"]
-    title = object["title"]
-    meta_title = object["meta_title"]
-    meta_description = object["meta_description"]
-    tags = object["tags"]
-    image_url = object["image_url"]
-    summary = object["summary"]
-    content = object["content"]
+    aritcle_id = instance.id
+    title = instance.title
+    meta_title = instance.meta_title
+    meta_description = instance.meta_description
+    tags = instance.tags
+    image_url = instance.image_url
+    summary = instance.summary
+    abunda_scorecard = instance.abunda_scorecard
+    content = instance.content
 
-    abunda_slug = object["abunda_slug"]
-    published = object["published"]
+    abunda_slug = instance.abunda_slug
+    published = instance.published
 
 
     abunda_data = {
@@ -45,9 +44,10 @@ def build_blog_from_data(object):
             "tags": tags,
             "image_url": image_url,
             "summary": summary,
+            "abunda_scorecard": abunda_scorecard,
             "body_html": content,
-            "published": published, 
-            "abunda_slug": abunda_slug, 
+            "abunda_slug": abunda_slug,
+            "published": published,     
         }
     } 
 

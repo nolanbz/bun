@@ -15,6 +15,7 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
             "tags",
             "image_url",
             "summary",
+            "abunda_scorecard",
             "content",            
         ]
 

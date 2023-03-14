@@ -1,6 +1,5 @@
 
 import requests
-
 import os
 
 auth_username = os.environ.get('USERNAME')

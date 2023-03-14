@@ -10,36 +10,38 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
     raw_id_fields = ['user']
 
-    def save_model(self, request, obj, form, change):
-        print('hit save')
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     print('hit save')
+    #     super().save_model(request, obj, form, change)
 
 
-        data = {
-            'id': obj.id,
-            'title': obj.title,
-            'meta_title': obj.meta_title,
-            'meta_description': obj.meta_description,
-            'tags': obj.tags,
-            'image_url': obj.image_url,
-            'summary': obj.summary,
-            'content': obj.content,
+        # data = {
+        #     'id': obj.id,
+        #     'title': obj.title,
+        #     'meta_title': obj.meta_title,
+        #     'meta_description': obj.meta_description,
+        #     'tags': obj.tags,
+        #     'image_url': obj.image_url,
+        #     'summary': obj.summary,
+        #     'abunda_scorecard': obj.abunda_scorecard,
+        #     'content': obj.content,
             
-            'abunda_url': obj.abunda_url,            
-            'abunda_slug': obj.abunda_slug,            
-            'published': obj.published,
+        #     'abunda_url': obj.abunda_url,            
+        #     'abunda_slug': obj.abunda_slug,            
+        #     'published': obj.published,
             
-        }
+        # }
 
-        data = build_blog_from_data(data)
-        print("built data")
+        # data = build_blog_from_data(data)
+        # print(data)
+        # print("built data")
         
-        if obj.abunda_slug:
-           response = put_to_abunda_blog(data)
-           print(response)
-        else:
-            response = post_to_abunda_blog(data)
-            print(response)
-            print("posted to abunda") 
+        # if obj.abunda_slug:
+        #    response = put_to_abunda_blog(data)
+        #    print(response)
+        # else:
+        #     response = post_to_abunda_blog(data)
+        #     print(response)
+        #     print("posted to abunda") 
 
 admin.site.register(Article, ArticleAdmin)
