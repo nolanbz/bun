@@ -30,7 +30,7 @@ def send_to_abunda_blog(data, method):
     response = getattr(requests, method.lower())(url, json=data, headers=headers, auth=ABUNDA_AUTH)
     response_data = response.json()
 
-    if response.status_code == requests.codes.created:
+    if response.status_code == requests.codes.created or response.status_code == requests.codes.ok:
         return response_data
     else:
         error_msg = f"Abunda API error: {response.status_code} {response_data.get('error', '')}"
