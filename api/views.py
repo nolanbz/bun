@@ -7,3 +7,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Article.objects.all().order_by('title')
     serializer_class = ArticleSerializer
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+
+        return response
