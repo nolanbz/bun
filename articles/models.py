@@ -101,25 +101,3 @@ def article_post_save(sender, instance, created, *args, **kwargs):
 
 post_save.connect(article_post_save, sender=Article)
 
-
-# def article_post_save(sender, instance, created, *args, **kwargs):   
-#     if created:
-#         slugify_instance_title(instance, save=True)
-
-#     data = build_blog_from_data(instance)
-
-#     if instance.id:    
-#         if instance.abunda_slug:
-#             print('put')
-#             response = send_to_abunda_blog(data, 'PUT')
-#             post_save.disconnect(article_post_save, sender=Article)
-#             update_abunda_slug(response)
-#             post_save.connect(article_post_save, sender=Article)    
-#         else:
-#             print('post')
-#             response = send_to_abunda_blog(data, 'POST')
-#             post_save.disconnect(article_post_save, sender=Article)
-#             update_abunda_slug(response)
-#             post_save.connect(article_post_save, sender=Article)        
-
-# post_save.connect(article_post_save, sender=Article)
