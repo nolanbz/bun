@@ -90,6 +90,7 @@ def send_and_update_abunda_blog(instance, data, http_method):
     post_save.connect(article_post_save, sender=Article)
 
 def article_post_save(sender, instance, created, *args, **kwargs):   
+    print('POST SAVE')
     if created:
         slugify_instance_title(instance, save=True)
 
