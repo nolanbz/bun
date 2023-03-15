@@ -93,11 +93,20 @@ def article_post_save(sender, instance, created, *args, **kwargs):
     if created:
         slugify_instance_title(instance, save=True)
 
+        if instance.id:
+
+            print('created')
+            http_method = 'PUT' if instance.abunda_slug else 'POST'
+            print(http_method)
+
     data = build_blog_from_data(instance)
 
     if instance.id:
         http_method = 'PUT' if instance.abunda_slug else 'POST'
-        send_and_update_abunda_blog(instance, data, http_method)
+
+        print(http_method)
+
+        # send_and_update_abunda_blog(instance, data, http_method)
 
 post_save.connect(article_post_save, sender=Article)
 
