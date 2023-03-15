@@ -79,27 +79,27 @@ def update_abunda_slug(response):
 def article_pre_save(sender, instance, *args, **kwargs):
     
     if instance.slug is None:
-        slugify_instance_title(instance, save=False)
-  
-
-    data = build_blog_from_data(instance)
-    print(data)
-
-    if instance.abunda_slug:
-        print('put')
-        response = send_to_abunda_blog(data, 'PUT')
-        # update_abunda_slug(response)        
-    else:
-        print('post')
-        response = send_to_abunda_blog(data, 'POST')
-        # update_abunda_slug(response)
-        
+        slugify_instance_title(instance, save=False)    
 
 pre_save.connect(article_pre_save, sender=Article)
 
 
 def article_post_save(sender, instance, created, *args, **kwargs):   
     if created:
-        slugify_instance_title(instance, save=True)        
+        slugify_instance_title(instance, save=True)
+
+    data = build_blog_from_data(instance)
+
+    if instance.id:    
+        if instance.abunda_slug:
+            print('put')
+            response = send_to_abunda_blog(data, 'PUT')
+            print(response)
+            update_abunda_slug(response)        
+        else:
+            print('post')
+            response = send_to_abunda_blog(data, 'POST')
+            print(response)
+            update_abunda_slug(response)       
 
 post_save.connect(article_post_save, sender=Article)
