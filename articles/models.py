@@ -91,7 +91,7 @@ def article_pre_save(sender, instance, *args, **kwargs):
     else:
         print('post')
         response = send_to_abunda_blog(data, 'POST')
-        print(response)
+        print(data)
         # update_abunda_slug(response)
         
 
