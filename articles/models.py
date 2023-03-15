@@ -83,6 +83,7 @@ def article_pre_save(sender, instance, *args, **kwargs):
   
 
     data = build_blog_from_data(instance)
+    print(data)
 
     if instance.abunda_slug:
         print('put')
@@ -91,7 +92,6 @@ def article_pre_save(sender, instance, *args, **kwargs):
     else:
         print('post')
         response = send_to_abunda_blog(data, 'POST')
-        print(data)
         # update_abunda_slug(response)
         
 
