@@ -1,11 +1,13 @@
+import random
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
 from django.urls import reverse
-from django.utils import timezone
+from django.utils.text import slugify
 
-from .utils import slugify_instance_title, build_blog_from_data
+
+from .utils import build_blog_from_data
 
 from api.utils import send_to_abunda_blog
 
@@ -69,19 +71,36 @@ def update_abunda_slug(response):
     article_id = response['backend_id']
     abunda_slug = response['slug']
     object = Article.objects.filter(id=article_id).first()
-    if object:               
+    if object:
+        post_save.disconnect(article_post_save, sender=Article)
         object.abunda_slug = abunda_slug
         object.abunda_url = f'https://www.shopabunda.com/blog/{abunda_slug}'
         object.save()
-        
+        post_save.connect(article_post_save, sender=Article)
+
+def slugify_instance_title(instance, save=False, new_slug=None):
+    if new_slug is not None:
+        slug = new_slug
+    else:
+        slug = slugify(instance.title)
+    Klass = instance.__class__
+    qs = Klass.objects.filter(slug=slug).exclude(id=instance.id)
+    if qs.exists():
+        # auto generate new slug
+        rand_int = random.randint(300_000, 500_000)
+        slug = f"{slug}-{rand_int}"
+        return slugify_instance_title(instance, save=save, new_slug=slug)
+    instance.slug = slug
+    if save:
+        post_save.disconnect(article_post_save, sender=Article)
+        instance.save()
+        post_save.connect(article_post_save, sender=Article)
+    return instance
         
 def article_pre_save(sender, instance, *args, **kwargs):
     
     if instance.slug is None:
         slugify_instance_title(instance, save=False)    
-
-pre_save.connect(article_pre_save, sender=Article)
-
 
 def send_and_update_abunda_blog(instance, data, http_method):
     response = send_to_abunda_blog(data, http_method)
@@ -90,24 +109,16 @@ def send_and_update_abunda_blog(instance, data, http_method):
     post_save.connect(article_post_save, sender=Article)
 
 def article_post_save(sender, instance, created, *args, **kwargs):   
-    print('POST SAVE')
     if created:
         slugify_instance_title(instance, save=True)
-
-        if instance.id:
-
-            print('created')
-            http_method = 'PUT' if instance.abunda_slug else 'POST'
-            print(http_method)
 
     data = build_blog_from_data(instance)
 
     if instance.id:
         http_method = 'PUT' if instance.abunda_slug else 'POST'
+        send_and_update_abunda_blog(instance, data, http_method)
 
-        print(http_method)
 
-        # send_and_update_abunda_blog(instance, data, http_method)
-
+pre_save.connect(article_pre_save, sender=Article)
 post_save.connect(article_post_save, sender=Article)
 
