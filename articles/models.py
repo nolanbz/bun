@@ -65,8 +65,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)
 
-def update_abunda_slug(response):
-    # print(response)
+def update_abunda_slug(response):    
     article_id = response['backend_id']
     abunda_slug = response['slug']
     object = Article.objects.filter(id=article_id).first()
@@ -92,14 +91,13 @@ def article_post_save(sender, instance, created, *args, **kwargs):
 
     if instance.id:    
         if instance.abunda_slug:
-            print('put')
-            response = send_to_abunda_blog(data, 'PUT')
-            print(response)
-            update_abunda_slug(response)        
+            http_method = 'PUT'
+            print(http_method)
         else:
-            print('post')
-            response = send_to_abunda_blog(data, 'POST')
-            print(response)
-            update_abunda_slug(response)       
-
-post_save.connect(article_post_save, sender=Article)
+            http_method = 'POST'
+            print(http_method)
+            
+        response = send_to_abunda_blog(data, http_method)
+        post_save.disconnect(article_post_save, sender=Article)
+        update_abunda_slug(response)
+        post_save.connect(article_post_save, sender=Article)
