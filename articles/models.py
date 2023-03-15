@@ -83,21 +83,43 @@ def article_pre_save(sender, instance, *args, **kwargs):
 pre_save.connect(article_pre_save, sender=Article)
 
 
+def send_and_update_abunda_blog(instance, data, http_method):
+    response = send_to_abunda_blog(data, http_method)
+    post_save.disconnect(article_post_save, sender=Article)
+    update_abunda_slug(response)
+    post_save.connect(article_post_save, sender=Article)
+
 def article_post_save(sender, instance, created, *args, **kwargs):   
     if created:
         slugify_instance_title(instance, save=True)
 
     data = build_blog_from_data(instance)
 
-    if instance.id:    
-        if instance.abunda_slug:
-            http_method = 'PUT'
-            print(http_method)
-        else:
-            http_method = 'POST'
-            print(http_method)
-            
-        response = send_to_abunda_blog(data, http_method)
-        post_save.disconnect(article_post_save, sender=Article)
-        update_abunda_slug(response)
-        post_save.connect(article_post_save, sender=Article)
+    if instance.id:
+        http_method = 'PUT' if instance.abunda_slug else 'POST'
+        send_and_update_abunda_blog(instance, data, http_method)
+
+post_save.connect(article_post_save, sender=Article)
+
+
+# def article_post_save(sender, instance, created, *args, **kwargs):   
+#     if created:
+#         slugify_instance_title(instance, save=True)
+
+#     data = build_blog_from_data(instance)
+
+#     if instance.id:    
+#         if instance.abunda_slug:
+#             print('put')
+#             response = send_to_abunda_blog(data, 'PUT')
+#             post_save.disconnect(article_post_save, sender=Article)
+#             update_abunda_slug(response)
+#             post_save.connect(article_post_save, sender=Article)    
+#         else:
+#             print('post')
+#             response = send_to_abunda_blog(data, 'POST')
+#             post_save.disconnect(article_post_save, sender=Article)
+#             update_abunda_slug(response)
+#             post_save.connect(article_post_save, sender=Article)        
+
+# post_save.connect(article_post_save, sender=Article)
