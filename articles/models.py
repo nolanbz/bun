@@ -67,6 +67,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):    
         super().save(*args, **kwargs)
 
+
 def update_abunda_slug(response):    
     article_id = response['backend_id']
     abunda_slug = response['slug']
