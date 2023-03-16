@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from api.utils import send_to_abunda_blog
 
-# Register your models here.
 from .models import Article
 
 class PublishedListFilter(admin.SimpleListFilter):
@@ -26,6 +26,10 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content']
     raw_id_fields = ['user']
     list_filter = (PublishedListFilter,)
+
+    def delete_model(self, request, obj):
+        send_to_abunda_blog(obj.abunda_slug, 'DELETE')        
+        super().delete_model(request, obj)
 
 
 admin.site.register(Article, ArticleAdmin)
