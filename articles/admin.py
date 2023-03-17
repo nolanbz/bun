@@ -28,7 +28,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = (PublishedListFilter,)
 
     def delete_model(self, request, obj):
-        send_to_abunda_blog(obj.abunda_slug, 'DELETE')
+        # send_to_abunda_blog(obj.abunda_slug, 'DELETE')
         print("deleted")       
         super().delete_model(request, obj)
 
